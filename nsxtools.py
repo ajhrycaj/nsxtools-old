@@ -17,7 +17,8 @@ app.add_url_rule('/listnsxmanager','listnsxmanager',getNsxManagerFromDB)
 
 @app.route('/addnsxmanager')
 def addNsxManagerToDB():
-    return 'Add NSX Manager'
+    return render_template('addmanager.html',name='Add NSX Manager')
+
 app.add_url_rule('/addnsxmanager','addnsxmanager',addNsxManagerToDB)
 
 if __name__ == '__main__':

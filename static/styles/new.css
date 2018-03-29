@@ -1,0 +1,16 @@
+#addmgr {
+    position: absolute;
+    color: skyblue;
+    object-position: left bottom;
+}
+
+table#addtable tr td {
+    position: relative;
+    left: 200px;
+    top: 100px;
+}
+
+h2.pos_left {
+    position: relative;
+    left: 200px
+}
