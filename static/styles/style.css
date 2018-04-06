@@ -119,3 +119,21 @@ ul#navigation ul li a {
     clear:both;
     width:150px;
 }
+
+#addmgr {
+    position: absolute;
+    color: skyblue;
+    object-position: left bottom;
+}
+
+table#addtable tr td {
+    position: relative;
+    left: 50px;
+    top: 100px;
+}
+
+h2.pos_left {
+    position: absolute;
+    left: 60px;
+    top: 95px;
+}
