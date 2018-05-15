@@ -1,0 +1,21 @@
+{%  extends "layout.html" %}
+{% block title %}Batch Add Firewall Rules{% endblock %}
+{% block content %}
+
+<nav id="datalist">
+    <form method="post" enctype="multipart/form-data" action={{ url_for('action_addBatchFwRule') }}>
+        <dt>NSX Manager</dt>
+        <dl>
+            <select name="nsxmanager">
+                {% for entry in choices %}
+                <option value={{ entry[0] }}>{{ entry[1] }}</option>
+                {% endfor %}
+            </select>
+        </dl>
+        <dt>CSV File:</dt>
+        <dl><input type="file" name="fwfile"></dl>
+        <input type="submit" value="Upload"></p>
+    </form>
+</nav>
+
+{% endblock %}

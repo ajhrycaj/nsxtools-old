@@ -1,43 +1,8 @@
-<!DOCTYPE html>
-<html lang="en>
-<head>
-    <meta charset="UTF-8">
-    <title>NSX Toolkit</title>
-    <meta name="NSX Web Frontend" content="">
-
-    <link rel="stylesheet" href="{{url_for('static',filename='styles/style.css')}}">
-
-    <!-- IE6-8 support of HTML5 elements --> <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-<nav id="nav">
-    <ul id="navigation">
-        <li><a href={{ url_for('index') }} class="first">Home</a></li>
-        <li><a href="#">Inventory &raquo;</a>
-            <ul>
-                <li><a href={{ url_for('addnsxmanager') }}>Add NSX Manager</a></li>
-                <li><a href="#">Delete NSX Manager</a></li>
-                <li><a href={{ url_for('listnsxmanager') }}>List NSX Managers</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Firewall &raquo;</a>
-            <ul>
-                <li><a href="#">Add Firewall Rule</a></li>
-                <li><a href="#">Delete Firewall Rule</a></li>
-                <li><a href="#">Batch Add Firewall Rules</a></li>
-                <li><a href="#">Update Firewall Rule</a></li>
-            </ul>
-        </li>
-        <li><a href="{{ url_for('contact') }}" class="last">Contact</a></li>
-    </ul>
-</nav>
-
+{%  extends "layout.html" %}
+{% block title %}Add NSX Manager{% endblock %}
+{% block content %}
 <nav id="addmgr">
-    <form method="POST" action="">
+    <form method="POST" action="{{ url_for('action_addmgr') }}">
     <table id="addtable">
         <tr>
             <td>IP Address</td>
@@ -45,7 +10,7 @@
         </tr>
         <tr>
             <td>Manager Type</td>
-            <td><input type="text" name="managertype", size="25"></td>
+            <td><select name="type"><option value="NSX-T">NSX-T</option></select></td>
         </tr>
         <tr>
             <td>Username</td>
@@ -63,6 +28,4 @@
 </nav>
 
 <h2 class="pos_left">Add NSX Manager</h2>
-
-</body>
-</html>
+{% endblock %}

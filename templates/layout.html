@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en>
+<head>
+{% block head %}
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="NSX Web Frontend" content="">
+
+    <link rel="stylesheet" href="{{url_for('static',filename='styles/style.css')}}">
+
+    <!-- IE6-8 support of HTML5 elements --> <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+{% endblock %}
+</head>
+
+<body>
+<nav id="nav">
+    <ul id="navigation">
+        <li><a href={{ url_for('index') }} class="first">Home</a></li>
+        <li><a href="#">Inventory &raquo;</a>
+            <ul>
+                <li><a href={{ url_for('addnsxmanager') }}>Add NSX Manager</a></li>
+                <li><a href="#">Delete NSX Manager</a></li>
+                <li><a href={{ url_for('listnsxmanager') }}>List NSX Managers</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Firewall &raquo;</a>
+            <ul>
+                <li><a href={{ url_for('addsinglefwrule') }}>Add Firewall Rule</a></li>
+                <li><a href="#">Delete Firewall Rule</a></li>
+                <li><a href={{ url_for('addbatchfwrule') }}>Batch Add Firewall Rules</a></li>
+                <li><a href="#">Update Firewall Rule</a></li>
+            </ul>
+        </li>
+        <li><a href="'#">IPSets &raquo;</a>
+            <ul>
+                <li><a href="#">Add IPSet</a></li>
+                <li><a href="#">Delete IPSet</a></li>
+                <li><a href={{ url_for('addbatchipsets') }}>Batch Add IPSets</a></li>
+                <li><a href="#">View All IPSets</a></li>
+            </ul>
+        </li>
+        <li><a href="'#">NSGroups &raquo;</a>
+            <ul>
+                <li><a href="#">Add NSGroup</a></li>
+                <li><a href="#">Delete NSGroup</a></li>
+                <li><a href="#">View All NSGroups</a></li>
+            </ul>
+        </li>
+        <li><a href="{{ url_for('contact') }}" class="last">Contact</a></li>
+    </ul>
+</nav>
+
+<div id="content">{% block content %}{% endblock %}</div>
+
+</body>
+</html>

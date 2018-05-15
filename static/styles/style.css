@@ -1,7 +1,7 @@
 /* Main Navigation */
 #nav {
     position:relative;
-    width:620px;
+    width:720px;
     margin:0 auto;
     margin-top:50px;
     padding:10px;
@@ -136,4 +136,12 @@ h2.pos_left {
     position: absolute;
     left: 60px;
     top: 95px;
+}
+
+#datalist {
+    position: absolute;
+    color: black;
+    object-position: left bottom;
+    left: 50px;
+    top: 120px;
 }

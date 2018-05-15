@@ -1,0 +1,34 @@
+{%  extends "layout.html" %}
+{% block title %}Batch Add Firewall Rules{% endblock %}
+{% block content %}
+
+    <nav id="datalist"></nav>
+        {% if error %}
+        <h2>The following objects were not found or valid:</h2>
+            {% if result.section %}
+                <dt>Sections:</dt>
+                <dl>{{ result.section }}</dl>
+            {% endif %}
+            {% if result.iplist %}
+                <dt>IP Addresses, IPSets and NSGroups not found:</dt>
+                <dl>{{ result.iplist }}</dl>
+            {% endif %}
+            {% if result.portlist %}
+                <dt>TCP/UDP Ports and NSServices:</dt>
+                <dl>{{ result.portlist }}</dl>
+            {% endif %}
+            {% if result.logging %}
+                <dt>Logging:</dt>
+                <dl>One or more rules have an invalid log setting</dl>
+            {% endif %}
+            {% if result.action %}
+                <dt>Action:</dt>
+                <dl>One or more rules have an invalid action setting</dl>
+            {% endif %}
+        {% endif %}
+        {% if not error %}
+        <h2>All rules applied successully</h2>
+        {% endif %}
+    </nav>
+
+{% endblock %}

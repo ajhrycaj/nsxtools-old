@@ -1,0 +1,15 @@
+{%  extends "layout.html" %}
+{% block title %}Batch Add Firewall Rules{% endblock %}
+{% block content %}
+
+    <nav id="datalist"></nav>
+        {% if error %}
+            <h2>The following IPSets were already found in the NSX Manager:</h2>
+            <dl>{{ result }}</dl>
+        {% endif %}
+        {% if not error %}
+            <h2>All IPSets created successully</h2>
+        {% endif %}
+    </nav>
+
+{% endblock %}

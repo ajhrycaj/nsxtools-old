@@ -1,0 +1,19 @@
+{%  extends "layout.html" %}
+{% block title %}List NSX Managers{% endblock %}
+{% block content %}
+<nav id="datalist">
+    <table>
+        <tr>
+            <th>IP Address</th>
+            <th>Type</th>
+        </tr>
+    {% for entry in result %}
+        <tr>
+            <td>{{ entry.ip }}</td>
+            <td>{{ entry.type }}</td>
+        </tr>
+    {% endfor %}
+     </table>
+
+</nav>
+{% endblock %}
