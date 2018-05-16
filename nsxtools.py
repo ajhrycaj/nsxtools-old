@@ -671,5 +671,148 @@ def action_addBatchIPSets():
         return render_template('action_addbatchipsets.html', result=duplicateIPSet, error=errorFound)
 app.add_url_rule('/action_addbatchipsets','action_addbatchipsets',action_addBatchIPSets)
 
+@app.route('/addbatchnsgroups')
+def addBatchNsGroups():
+    # Get list of managers from database
+    result = dbGetNsxManagers()
+
+    #Empty list to store the different choices
+    choiceList = []
+
+    #the choices property needs a tuple in the form of (value,label)
+    for entry in result['results']:
+        choiceList.append((entry['id'],entry['ip']))
+
+    return render_template('addbatchnsgroups.html', choices=choiceList)
+app.add_url_rule('/addbatchnsgroups','addbatchnsgroups',addBatchNsGroups)
+
+@app.route('/action_addbatchnsgroups', methods=['GET','POST'])
+def action_addBatchNsGroups():
+    #Was the file uploaded?
+    if 'fwfile' not in request.files:
+        return render_template('addbatchipsets.html')
+
+    #Save the file
+    file = request.files['fwfile']
+
+    #Is the file name blank?
+    if file.filename == '':
+        return render_template('addbatchipsets.html')
+
+    #If it is an approved file extension, do stuff
+    if file and allowed_file(file.filename):
+        #Save filename
+        filename = secure_filename(file.filename)
+        payload = file.read()
+        #Create CSV object from the string payload
+        reader = csv.reader(payload.splitlines(), delimiter=',')
+
+        #Get the ID of the NSX Manager
+        nsxId = request.form['nsxmanager']
+        #Get connection info for NSX Manager from database
+        connectInfo = getNsxManagerConnectInfoById(nsxId)
+        #Init the nsx-t class
+        nsxtObj = cNsxt(connectInfo['ipaddr'],connectInfo['username'],connectInfo['password'])
+
+        ##########################################
+        # Line parsing
+        ##########################################
+
+        #Read line by line
+        for row in reader:
+
+            #how many entries in this CSV row?
+            rowLength = len(row)
+
+            # initialize the membership list variable
+            membershipList = []
+            memberList = []
+
+            #Do we already have this NSGroup name in the inventory?
+            #If not, we move forward
+            if not nsxtObj.getNsGroupIdByName(row[0]):
+
+                #We could be just defining a blank NSGroup with no membership criteria
+                #If so, set the membershipList to None
+                if rowLength == 1:
+                    membershipList = None
+                    memberList = None
+                else:
+
+                    #We need a list to hold all of the membership and member info we will read
+                    #from the CSV line
+                    valueList = []
+
+                    #Grab all value info but skip the name of the NsGroup
+                    for counter, value in enumerate(row):
+                        if counter != 0:
+                            valueList.append(value)
+
+                    #Loop through all of our Value list
+                    #example tags=x|y,nsgroups=a|b,ipsets=1|2
+                    for data in valueList:
+                        #take the first entry and split it by the =
+                        x = data.split('=')
+
+                        if x[0] == 'nsgroups':
+                            #split the names by the '|' operator
+                            nsGroupNames = x[1].split('|')
+
+                            for nsgroup in nsGroupNames:
+                                #Get the nsgroup id
+                                nsGroupId = nsxtObj.getNsGroupIdByName(nsgroup)
+
+                                #Does the NsGroup exist in the NSX Manager?
+                                if nsGroupId:
+                                    resource_type = "nsgroup"
+                                    #add the nsGroup to the member List
+                                    memberList.append(nsxtObj.createMemberListObject(resource_type,nsGroupId))
+                                else:
+                                    #The nsgroup did not exist so we have to skip it
+                                    print "NsGroup " + nsgroup + " not found in NSX Manager.  Skipping"
+                        elif x[0] == 'tags':
+                            #Split the tag names by the | operator
+                            tagNames = x[1].split('|')
+
+                            #Loop through the tags
+                            for tag in tagNames:
+                                #add the tag object to the list
+                                membershipList.append(nsxtObj.createNsGroupTagListObject(tag))
+                        elif x[0] == 'ipsets':
+                            #take first entry and split it by the '|' operator
+                            ipSetNames = x[1].split('|')
+
+                            for ipset in ipSetNames:
+                                #get ipset id
+                                ipSetId = nsxtObj.getIpsetIdByName(ipset)
+
+                                if ipSetId:
+                                    resource_type = "ipset"
+                                    #add the ipset to the member list
+                                    memberList.append(nsxtObj.createMemberListObject(resource_type, ipSetId))
+                                else:
+                                    #the ipset did not exist
+                                    print "IPset " + ipset | " not found in NSX Manager.  Skipping"
+                        else:
+                            print "Unknown membership value found.  Skipping"
+
+                    #Failsafe to ensure our membership list will be a none if there was
+                    #something defined that we could not process
+                    if len(membershipList) == 0:
+                        membershipList = None
+                    if len(memberList) == 0:
+                        memberList = None
+
+                    # We should not have everything we need to create an NSGroup object
+                    nsGroupObj = nsxtObj.createNsGroupInventoryObject(row[0], membershipList, memberList)
+
+                    #Create the NsGroup
+                    result = nsxtObj.createNsGroup(nsGroupObj)
+
+                    print result
+
+    return 'Test'
+app.add_url_rule('/action_addbatchnsgroups','action_addbatchnsgroups',action_addBatchNsGroups)
+
 if __name__ == '__main__':
     app.run()

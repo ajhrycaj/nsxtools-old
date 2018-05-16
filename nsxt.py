@@ -6,7 +6,8 @@ from com.vmware.nsx.firewall_client import Sections
 from com.vmware.nsx.firewall.sections_client import Rules
 
 from com.vmware.nsx.model_client import NSGroup,FirewallService,FirewallRule,FirewallRuleList,FirewallSection, \
-    ResourceReference, NSServiceElement, NSService, L4PortSetNSService, IPSet
+    ResourceReference, NSServiceElement, NSService, L4PortSetNSService, IPSet, NSGroupTagExpression, \
+    NSGroupSimpleExpression
 
 from vmware.vapi.lib import connect
 from vmware.vapi.security.user_password import create_user_password_security_context
@@ -73,11 +74,51 @@ class cNsxt:
 
         return resource
 
-    def createNsGroupInventoryMember(self,nsGroup):
+    #creates the NSGroup object with the membership specified.  This will be used to create
+    #a new NSGroup object in the inventory
+    def createNsGroupInventoryObject(self,nsGroupName,membershipList, memberList):
 
         resource = NSGroup(
-
+            display_name=nsGroupName,
+            membership_criteria=membershipList,
+            members=memberList
         )
+
+        return resource
+
+    #Creates an NSGroup Object to be a member of another NSGroup for dynamic association
+    def createMemberListObject(self,resourceType,objId):
+
+        if resourceType == "nsgroup":
+            resource = NSGroupSimpleExpression(
+                op=NSGroupSimpleExpression.OP_EQUALS,
+                target_property='id',
+                target_type=NSGroupSimpleExpression.TARGET_TYPE_NSGROUP,
+                value=objId,
+            )
+            return resource
+
+        if resourceType == "ipset":
+            resource = NSGroupSimpleExpression(
+                op=NSGroupSimpleExpression.OP_EQUALS,
+                target_property='id',
+                target_type=NSGroupSimpleExpression.TARGET_TYPE_IPSET,
+                value=objId,
+            )
+            return resource
+
+    #function to create a tag expression with the name sepecified when the function is called
+    #right now this function only uses allows EQUALS as an operator for a VirtualMachine target type
+    def createNsGroupTagListObject(self,tagName):
+
+        resource = NSGroupTagExpression(
+            scope_op=NSGroupTagExpression.TAG_OP_EQUALS,
+            tag=tagName,
+            tag_op=NSGroupTagExpression.TAG_OP_EQUALS,
+            target_type=NSGroupTagExpression.TARGET_TYPE_VIRTUALMACHINE
+        )
+
+        return resource
 
     def getAllNsGroups(self):
 
@@ -374,6 +415,17 @@ class cNsxt:
 
         #Create the IPSet in the NSX Manager
         result = ipsObj.create(ipset)
+
+        #Return the result
+        return result
+
+    def createNsGroup(self,nsgroup):
+
+        #Create the NSGroup Object
+        nsGroupObj = NsGroups(self.stub_config)
+
+        #Create the NSGroup in the manager
+        result = nsGroupObj.create(nsgroup)
 
         #Return the result
         return result
