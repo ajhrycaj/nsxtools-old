@@ -1,0 +1,7 @@
+flask
+wtforms
+ipaddress
+cryptography
+mysql
+configparser
+requests
