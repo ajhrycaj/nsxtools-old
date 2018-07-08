@@ -4,7 +4,7 @@ Python utility used for quickly executing tasks against an NSX-T Manager
 
 Created By: Andrew Hrycaj
 
-Files that need to be created: 
+**Files that need to be created:** 
 
 db.ini
 ------
@@ -20,7 +20,7 @@ key that can be used to decrypt the passwords that are stored.  Included is a py
 appropriate location (static folder).
 
 
-Files for setup:
+**Files for setup:**
 
 nsxtools.sql
 ------------
@@ -28,17 +28,19 @@ nsxtools.sql
 This script will create the mysql database and table needed to store the NSX-T Manager connection information.
 
 
-Libraries needed:
+**Libraries needed:**
 
 For RedHat/Fedora/CentOS
-
+```
 yum install python-devel mysql-devel
+```
 
 For Ubuntu:
-
+```
 apt-get install libmysqlclient-dev
+```
 
 For more recent Ubuntu (2018)
-
+```
 apt install default-libmysqlclient-dev
-
+```
