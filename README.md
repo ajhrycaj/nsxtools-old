@@ -44,3 +44,21 @@ For more recent Ubuntu (2018)
 ```
 apt install default-libmysqlclient-dev
 ```
+
+**PIP information**
+
+You might need to upgrade come modules to get the NSX-T libraries working for python.  See their setup guide for more information
+```
+pip install --upgrade pip wheel setuptools
+```
+
+**Install NSX-T Python Libraries**
+
+You can get the wheel files from the vmware website.  I used the 2.1 libraries for the code.  Be aware that you must install these in the exact order below!
+```
+pip install nsx_python_sdk-2.1.0.0.0.7319425-py2.py3-none-any.whl
+pip install vapi_runtime-2.7.0-py2.py3-none-any.whl
+pip install vapi_common-2.7.0-py2.py3-none-any.whl
+pip install vapi_common_client-2.7.0-py2.py3-none-any.whl
+```
+
