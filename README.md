@@ -24,4 +24,21 @@ Files for setup:
 
 nsxtools.sql
 ------------
+
 This script will create the mysql database and table needed to store the NSX-T Manager connection information.
+
+
+Libraries needed:
+
+For RedHat/Fedora/CentOS
+
+yum install python-devel mysql-devel
+
+For Ubuntu:
+
+apt-get install libmysqlclient-dev
+
+For more recent Ubuntu (2018)
+
+apt install default-libmysqlclient-dev
+
