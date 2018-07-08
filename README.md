@@ -18,3 +18,7 @@ key.enc
 Passwords for the NSX-T manager are stored in the database in a encrypted format.  I used the cryptography.fernet library to generate a
 key that can be used to decrypt the passwords that are stored.  Included is a python script to generate a key and save it in the 
 appropriate location (static folder).
+
+nsxtools.sql
+------------
+This script will create the mysql database and table needed to store the NSX-T Manager connection information.
