@@ -452,7 +452,7 @@ def action_addmgr():
         mysql.commit()
         result = "NSX Manager Added"
     except:
-        mysql.connection.rollback()
+        mysql.rollback()
         result = "Error adding NSX Manager"
 
         cursor.close()
@@ -735,8 +735,8 @@ def action_addBatchNsGroups():
                 #We could be just defining a blank NSGroup with no membership criteria
                 #If so, set the membershipList to None
                 if rowLength == 1:
-                    membershipList = None
-                    memberList = None
+                    membershipList.append(None)
+                    memberList.append(None)
                 else:
 
                     #We need a list to hold all of the membership and member info we will read
