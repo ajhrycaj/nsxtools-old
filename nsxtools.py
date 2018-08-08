@@ -735,8 +735,16 @@ def action_addBatchNsGroups():
                 #We could be just defining a blank NSGroup with no membership criteria
                 #If so, set the membershipList to None
                 if rowLength == 1:
-                    membershipList.append(None)
-                    memberList.append(None)
+                    membershipList = None
+                    memberList = None
+
+                    # We should not have everything we need to create an NSGroup object
+                    nsGroupObj = nsxtObj.createNsGroupInventoryObject(row[0], membershipList, memberList)
+
+                    # Create the NsGroup
+                    result = nsxtObj.createNsGroup(nsGroupObj)
+
+                    print result
                 else:
 
                     #We need a list to hold all of the membership and member info we will read
