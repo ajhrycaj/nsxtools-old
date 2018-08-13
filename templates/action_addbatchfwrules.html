@@ -6,24 +6,24 @@
         {% if error %}
         <h2 class="results">The following objects were not found or valid:</h2>
             {% if result.section %}
-                <dt>Sections:</dt>
-                <dl class="result">{{ result.section }}</dl>
+                <dt class="section">Sections:</dt>
+                <dl class="section">{{ result.section }}</dl>
             {% endif %}
             {% if result.iplist %}
-                <dt>IP Addresses, IPSets and NSGroups not found:</dt>
-                <dl class="result">{{ result.iplist }}</dl>
+                <dt class="iplist">IP Addresses, IPSets and NSGroups not found:</dt>
+                <dl class="iplist">{{ result.iplist }}</dl>
             {% endif %}
             {% if result.portlist %}
-                <dt>TCP/UDP Ports and NSServices:</dt>
-                <dl class="result">{{ result.portlist }}</dl>
+                <dt class="portlist">TCP/UDP Ports and NSServices:</dt>
+                <dl class="portlist">{{ result.portlist }}</dl>
             {% endif %}
             {% if result.logging %}
-                <dt>Logging:</dt>
-                <dl class="result">One or more rules have an invalid log setting</dl>
+                <dt class="logging">Logging:</dt>
+                <dl class="logging">One or more rules have an invalid log setting</dl>
             {% endif %}
             {% if result.action %}
-                <dt>Action:</dt>
-                <dl class="result">One or more rules have an invalid action setting</dl>
+                <dt class="action">Action:</dt>
+                <dl class="action">One or more rules have an invalid action setting</dl>
             {% endif %}
         {% endif %}
         {% if not error %}

@@ -163,3 +163,63 @@ dl.result {
     left: 5px;
     top: 200px;
 }
+
+dt.section {
+    position: absolute;
+    left: 5x;
+    top: 250px;
+}
+
+dt.iplist {
+    position: absolute;
+    left: 5x;
+    top: 300px;
+}
+
+dt.portlist {
+    position: absolute;
+    left: 5x;
+    top: 350px;
+}
+
+dt.logging {
+    position: absolute;
+    left: 5x;
+    top: 400px;
+}
+
+dt.action {
+    position: absolute;
+    left: 5x;
+    top: 450px;
+}
+
+dl.section {
+    position: absolute;
+    left: 30x;
+    top: 255px;
+}
+
+dl.iplist {
+    position: absolute;
+    left: 30x;
+    top: 305px;
+}
+
+dl.portlist {
+    position: absolute;
+    left: 30x;
+    top: 355px;
+}
+
+dl.logging {
+    position: absolute;
+    left: 30x;
+    top: 405px;
+}
+
+dl.action {
+    position: absolute;
+    left: 30x;
+    top: 455px;
+}
