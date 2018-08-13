@@ -718,6 +718,9 @@ def action_addBatchNsGroups():
         # Line parsing
         ##########################################
 
+        duplicateNsGroup = []
+        errorFound = False
+
         #Read line by line
         for row in reader:
 
@@ -818,8 +821,12 @@ def action_addBatchNsGroups():
                     result = nsxtObj.createNsGroup(nsGroupObj)
 
                     print result
+            else:
+                #This IPSet already exists in the NSX-T Manager.  Let's not make it again
+                duplicateNsGroup.append(row[0])
+                errorFound = True
 
-    return 'Test'
+    return render_template('action_addbatchnsgroups.html', result=duplicateNsGroup, error=errorFound)
 app.add_url_rule('/action_addbatchnsgroups','action_addbatchnsgroups',action_addBatchNsGroups)
 
 if __name__ == '__main__':

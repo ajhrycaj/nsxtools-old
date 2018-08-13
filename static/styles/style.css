@@ -134,8 +134,8 @@ table#addtable tr td {
 
 h2.pos_left {
     position: absolute;
-    left: 60px;
-    top: 95px;
+    left: 700px;
+    top: 215px;
 }
 
 #datalist {
@@ -144,4 +144,22 @@ h2.pos_left {
     object-position: left bottom;
     left: 50px;
     top: 120px;
+}
+
+.titlepage {
+    position: absolute;
+    left: 50%;
+    top: 0px;
+}
+
+.results {
+    position: absolute;
+    left: 5px;
+    top: 150px;
+}
+
+dl.result {
+    position: absolute;
+    left: 5px;
+    top: 200px;
 }
